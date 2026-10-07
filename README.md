@@ -1,6 +1,6 @@
 # LAMBISGOIA IA
 
-— Não espere respostas complexas. É ser uma IA local que necessita de APIs;
+— Não espere respostas complexas. É uma IA local que necessita de APIs;
 
 — Tema Claro e Escuro;
 
