@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0d1115" />
+  <meta name="description" content="Lambisgoia: um agente só para conversar com todas as IAs." />
+  <title>Lambisgoia — um agente, todas as IAs</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <div class="brand-lockup" aria-label="Lambisgoia">
+          <span class="brand-mark" aria-hidden="true"><i></i><b></b><em></em></span>
+          <span class="brand-name">lambisgoia</span>
+        </div>
+        <button class="icon-button sidebar-close" data-action="toggle-sidebar" aria-label="Fechar menu">×</button>
+      </div>
+
+      <button class="new-chat-button" data-action="new-chat"><span class="plus">+</span><span>Nova conversa</span><kbd>⌘ K</kbd></button>
+      <label class="search-box" for="historySearch"><span class="search-icon">⌕</span><input id="historySearch" type="search" placeholder="Buscar conversas" /><kbd>⌘ /</kbd></label>
+
+      <nav class="side-nav" aria-label="Navegação principal">
+        <button class="nav-item active" data-action="focus-chat"><span class="nav-icon">✦</span> Conversas</button>
+        <button class="nav-item" data-action="open-library"><span class="nav-icon">⌬</span> Biblioteca <span class="nav-count">12</span></button>
+        <button class="nav-item" data-action="open-settings"><span class="nav-icon">⚙</span> Configurações</button>
+      </nav>
+
+      <div class="history-heading"><span>Recentes</span><button class="text-button" data-action="clear-history">Limpar</button></div>
+      <div class="conversation-list" id="conversationList"></div>
+
+      <div class="sidebar-bottom">
+        <div class="upgrade-card"><div class="upgrade-icon">✹</div><div><strong>Modo ilimitado</strong><span>Desbloqueie todos os modelos</span></div><button data-action="show-toast" data-toast="O plano Pro estará disponível em breve.">↗</button></div>
+        <button class="profile-button" data-action="open-profile"><span class="avatar">LS</span><span class="profile-copy"><strong>Larissa Souza</strong><small>Plano gratuito</small></span><span class="profile-more">•••</span></button>
+      </div>
+    </aside>
+
+    <main class="main-panel">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" data-action="toggle-sidebar" aria-label="Abrir menu">☰</button>
+        <div class="model-select-wrap">
+          <button class="model-select" data-action="toggle-models" aria-expanded="false"><span class="model-orb"></span><span id="activeModelName">Lambisgoia Auto</span><span class="model-caret">⌄</span></button>
+          <div class="model-popover" id="modelPopover" hidden>
+            <div class="popover-kicker">Escolha como pensar</div>
+            <div id="modelOptions"></div>
+            <div class="popover-footer"><span>O Lambisgoia pode trocar de modelo automaticamente.</span><span class="status-dot"></span></div>
+          </div>
+        </div>
+        <div class="topbar-actions"><button class="icon-button" data-action="toggle-theme" aria-label="Alternar tema">◐</button><button class="share-button" data-action="share-chat"><span>↗</span> Compartilhar</button><button class="icon-button" data-action="open-settings" aria-label="Configurações">⚙</button></div>
+      </header>
+
+      <section class="chat-stage" id="chatStage">
+        <div class="welcome-view" id="welcomeView">
+          <div class="hero-orbit"><span class="hero-mark"><i></i><b></b><em></em></span><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span></div>
+          <p class="eyebrow">SEU ATALHO PARA O FUTURO</p>
+          <h1>O que vamos<br /><span>desvendar hoje?</span></h1>
+          <p class="hero-subtitle">Um agente só, com o melhor de cada IA. Escreva, envie uma imagem ou escolha um atalho para começar.</p>
+          <div class="suggestion-grid">
+            <button class="suggestion-card" data-prompt="Analise esta ideia e transforme em um plano prático"><span class="suggestion-icon mint">✦</span><span><strong>Plano prático</strong><small>Transforme uma ideia em ação</small></span><span class="suggestion-arrow">→</span></button>
+            <button class="suggestion-card" data-prompt="Quero analisar uma imagem e entender o que aparece nela"><span class="suggestion-icon coral">▧</span><span><strong>Leia uma imagem</strong><small>Descreva, extraia e interprete</small></span><span class="suggestion-arrow">→</span></button>
+            <button class="suggestion-card" data-prompt="Compare GPT, Gemini, Grok e Copilot para uma tarefa de e-commerce"><span class="suggestion-icon blue">◒</span><span><strong>Compare modelos</strong><small>Encontre o melhor cérebro</small></span><span class="suggestion-arrow">→</span></button>
+            <button class="suggestion-card" data-prompt="Resuma os pontos mais importantes deste assunto em tópicos"><span class="suggestion-icon violet">≋</span><span><strong>Resuma tudo</strong><small>Do longo para o essencial</small></span><span class="suggestion-arrow">→</span></button>
+          </div>
+        </div>
+
+        <div class="messages-view" id="messagesView" hidden></div>
+
+        <div class="composer-dock">
+          <div class="drop-hint" id="dropHint">Solte imagens aqui para o Lambisgoia ler</div>
+          <div class="attachment-strip" id="attachmentStrip" hidden></div>
+          <form class="composer" id="composerForm">
+            <input type="file" id="imageInput" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden />
+            <button type="button" class="composer-icon" data-action="attach-image" aria-label="Anexar imagem">⊕</button>
+            <textarea id="messageInput" rows="1" placeholder="Converse com o Lambisgoia..." aria-label="Mensagem"></textarea>
+            <button type="button" class="composer-icon voice-button" data-action="voice" aria-label="Usar microfone">◉</button>
+            <button type="submit" class="send-button" aria-label="Enviar mensagem">↑</button>
+          </form>
+          <div class="composer-meta"><span><span class="tiny-dot"></span> Lambisgoia pode cometer erros. Confira informações importantes.</span><span><kbd>Enter</kbd> enviar <kbd>Shift + Enter</kbd> nova linha</span></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden></div>
+  <section class="modal settings-modal" id="settingsModal" hidden role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="modal-header"><div><span class="modal-kicker">CENTRAL DE CONTROLE</span><h2 id="settingsTitle">Configurações</h2></div><button class="icon-button" data-action="close-modal">×</button></div>
+    <div class="settings-body"><aside class="settings-tabs"><button class="settings-tab active" data-tab="general">Geral</button><button class="settings-tab" data-tab="appearance">Aparência</button><button class="settings-tab" data-tab="data">Dados e privacidade</button></aside><div class="settings-content" id="settingsContent"></div></div>
+  </section>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>

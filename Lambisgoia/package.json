@@ -1,0 +1,14 @@
+{
+  "name": "lambisgoia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lambisgoia — um agente para conversar com todas as IAs.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
